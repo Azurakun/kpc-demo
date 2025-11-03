@@ -1,3 +1,8 @@
+/*
+Konten file: azurakun/kpc-demo/kpc-demo-75856911d55a8f1e8f3b9128f187cdb37b4c9998/script.js
+(Dengan modifikasi untuk menyimpan suara)
+*/
+
 document.addEventListener("DOMContentLoaded", () => {
 
     // --- 1. MOCK DATA ---
@@ -99,6 +104,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Main logic for confirming and showing "Thank You"
     modalConfirmButton.addEventListener("click", () => {
+        
+        // *** PENAMBAHAN LOGIKA UNTUK MENYIMPAN SUARA ***
+        if (selectedCandidate) {
+            // 1. Ambil data suara yang ada dari localStorage, atau buat objek kosong jika belum ada
+            let votes = JSON.parse(localStorage.getItem("kuwuVotes")) || {};
+            
+            // 2. Tambahkan suara untuk kandidat yang dipilih
+            const candidateId = selectedCandidate.id;
+            votes[candidateId] = (votes[candidateId] || 0) + 1;
+
+            // 3. Simpan kembali data suara yang sudah diperbarui ke localStorage
+            localStorage.setItem("kuwuVotes", JSON.stringify(votes));
+        }
+        // *** AKHIR DARI LOGIKA PENYIMPANAN ***
+
+        
         // 1. Hide the confirmation modal immediately
         hideConfirmationModal();
 

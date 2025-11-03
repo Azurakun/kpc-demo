@@ -1,0 +1,147 @@
+/* Basic setup */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+    background-color: #f7fafc; 
+    margin: 0;
+    padding: 20px;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+/* Header */
+header {
+    text-align: center;
+    padding: 25px;
+    background: linear-gradient(180deg, #d4e6f7, #ffffff);
+    border-bottom: 1px solid #ddd;
+    border-radius: 8px 8px 0 0;
+}
+
+header h1 {
+    margin: 0;
+    color: #333;
+}
+
+header p {
+    margin: 5px 0 0;
+    color: #555;
+    font-size: 1.1rem;
+}
+
+main {
+    padding: 25px;
+}
+
+/* Results Styling */
+#results-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.total-votes {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #0056b3;
+    text-align: center;
+    padding: 15px;
+    background-color: #f0f8ff;
+    border-radius: 6px;
+    border: 1px solid #cce5ff;
+    margin-bottom: 10px;
+}
+
+.result-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    background-color: #fdfdfd;
+}
+
+.candidate-img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 2px solid #ddd;
+}
+
+.candidate-info {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.candidate-info .name {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #333;
+}
+
+.candidate-info .votes {
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: #f36f54;
+}
+
+.bar-wrapper {
+    width: 200px; /* Lebar tetap untuk bar */
+    height: 20px;
+    background-color: #e9ecef;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.bar {
+    height: 100%;
+    background-color: #007bff;
+    border-radius: 10px;
+    transition: width 0.3s ease;
+}
+
+
+/* Button */
+.reset-btn {
+    width: 100%;
+    padding: 15px;
+    background-color: #dc3545; /* Merah untuk bahaya */
+    color: white;
+    font-size: 1.1rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-top: 30px;
+}
+
+.reset-btn:hover {
+    background-color: #c82333;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 20px;
+    border-top: 1px solid #eee;
+    margin-top: 20px;
+}
+
+footer a {
+    color: #007bff;
+    text-decoration: none;
+    font-size: 1rem;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
