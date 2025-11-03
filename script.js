@@ -2,11 +2,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // --- 1. MOCK DATA ---
     const candidates = [
-        { id: 1, name: "Ikmal Wiawan", photo: "img/1.jpg" },
-        { id: 2, name: "Lulu Lukman", photo: "img/2.avif" },
-        { id: 3, name: "Yosep Rohayadi", photo: "img/3.jpg" },
-        { id: 4, name: "Zainal Aripin", photo: "img/4.jpg" },
-        { id: 5, name: "Muhammad Zainul Arifin, S.H.", photo: "img/5.jpg" }
+        { id: 1, name: "Nanas", photo: "img/1.jpg" },
+        { id: 2, name: "Jeruk", photo: "img/2.avif" },
+        { id: 3, name: "Strawberry", photo: "img/3.jpg" },
+        { id: 4, name: "Semangka", photo: "img/5.jpg" }
     ];
 
     // --- 2. GET DOM ELEMENTS ---
