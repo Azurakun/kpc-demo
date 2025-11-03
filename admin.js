@@ -20,11 +20,18 @@ document.addEventListener("DOMContentLoaded", () => {
         resultsContainer.innerHTML = "";
 
         let totalVotes = 0;
+        
+        // Hitung total suara tertinggi untuk persentase bar
+        const voteCounts = Object.values(votes);
+        const maxVotes = voteCounts.length > 0 ? Math.max(...voteCounts) : 1;
 
         // 3. Buat elemen untuk setiap kandidat
         candidates.forEach(candidate => {
             const voteCount = votes[candidate.id] || 0;
             totalVotes += voteCount;
+            
+            // Hitung persentase untuk lebar bar
+            const barPercentage = (voteCount / maxVotes) * 100;
 
             const resultItem = document.createElement("div");
             resultItem.className = "result-item";
@@ -36,7 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     <span class="votes">${voteCount} Suara</span>
                 </div>
                 <div class="bar-wrapper">
-                    <div class="bar" style="width: ${voteCount > 0 ? (voteCount / Math.max(...Object.values(votes))) * 100 : 0}%"></div>
+                    <div class="bar" style="width: ${barPercentage}%"></div>
                 </div>
             `;
             
@@ -70,4 +77,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Render hasil saat halaman pertama kali dimuat
     renderResults();
+
+    // --- PENAMBAHAN UNTUK PEMBARUAN OTOMATIS ---
+    /**
+     * Mendengarkan perubahan 'storage'.
+     * Ini akan terpicu ketika tab lain (index.html) memodifikasi localStorage.
+     */
+    window.addEventListener('storage', (event) => {
+        // Periksa apakah data yang berubah adalah 'kuwuVotes'
+        if (event.key === 'kuwuVotes') {
+            console.log("Mendeteksi perubahan suara... Memperbarui hasil.");
+            // Jika ya, render ulang hasil di halaman admin
+            renderResults();
+        }
+    });
+    // --- AKHIR DARI PENAMBAHAN ---
+
 });
