@@ -1,24 +1,22 @@
-// Wait for the DOM to be fully loaded before running the script
 document.addEventListener("DOMContentLoaded", () => {
 
     // --- 1. MOCK DATA ---
-    // Make sure these paths are correct!
-    // It looks for 1.png, 2.png, etc. INSIDE a folder named "img"
     const candidates = [
-        { id: 1, name: "Ikmal Wiawan", photo: "img/1.png" },
-        { id: 2, name: "Lulu Lukman", photo: "img/2.png" },
-        { id: 3, name: "Yosep Rohayadi", photo: "img/1.png" },
-        { id: 4, name: "Zainal Aripin", photo: "img/2.png" },
-        { id: 5, name: "Muhammad Zainul Arifin, S.H.", photo: "img/1.png" }
+        { id: 1, name: "Ikmal Wiawan", photo: "img/1.jpg" },
+        { id: 2, name: "Lulu Lukman", photo: "img/2.avif" },
+        { id: 3, name: "Yosep Rohayadi", photo: "img/3.jpg" },
+        { id: 4, name: "Zainal Aripin", photo: "img/4.jpg" },
+        { id: 5, name: "Muhammad Zainul Arifin, S.H.", photo: "img/5.jpg" }
     ];
 
     // --- 2. GET DOM ELEMENTS ---
     const candidateGrid = document.getElementById("candidate-grid");
     const submitButton = document.getElementById("submit-selection");
-    const modal = document.getElementById("confirmation-modal");
+    const confirmationModal = document.getElementById("confirmation-modal"); // Renamed for clarity
     const modalCandidateInfo = document.getElementById("modal-candidate-info");
     const modalBackButton = document.getElementById("modal-back-btn");
     const modalConfirmButton = document.getElementById("modal-confirm-btn");
+    const thankYouModal = document.getElementById("thank-you-modal");
 
     let selectedCandidate = null;
 
@@ -30,11 +28,11 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        candidateGrid.innerHTML = ""; // Clear existing grid
+        candidateGrid.innerHTML = "";
         candidates.forEach(candidate => {
             const card = document.createElement("div");
             card.className = "candidate-card";
-            card.dataset.id = candidate.id; // Store candidate ID on the element
+            card.dataset.id = candidate.id;
 
             card.innerHTML = `
                 <div class="image-wrapper">
@@ -43,8 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 </div>
                 <div class="name">${candidate.name}</div>
             `;
-
-            // Add click event listener to each card
+            
             card.addEventListener("click", () => handleCardClick(card, candidate));
             candidateGrid.appendChild(card);
         });
@@ -59,18 +56,30 @@ document.addEventListener("DOMContentLoaded", () => {
         submitButton.disabled = false;
     }
 
-    function showModal() {
+    // Renamed 'showModal' to 'showConfirmationModal' for clarity
+    function showConfirmationModal() {
         if (!selectedCandidate) return;
 
         modalCandidateInfo.innerHTML = `
             <img src="${selectedCandidate.photo}" alt="${selectedCandidate.name}">
             <div class="name">${selectedCandidate.name}</div>
         `;
-        modal.style.display = "flex";
+        confirmationModal.style.display = "flex";
     }
 
-    function hideModal() {
-        modal.style.display = "none";
+    // Renamed 'hideModal' to 'hideConfirmationModal' for clarity
+    function hideConfirmationModal() {
+        confirmationModal.style.display = "none";
+    }
+
+    // NEW: Function to show the "Thank You" modal
+    function showThankYouModal() {
+        thankYouModal.style.display = "flex";
+    }
+
+    // NEW: Function to hide the "Thank You" modal
+    function hideThankYouModal() {
+        thankYouModal.style.display = "none";
     }
 
     function resetSelection() {
@@ -78,31 +87,37 @@ document.addEventListener("DOMContentLoaded", () => {
         const allCards = document.querySelectorAll(".candidate-card");
         allCards.forEach(card => card.classList.remove("selected"));
         submitButton.disabled = true;
-        // hideModal();
     }
 
+
     // --- 4. ADD EVENT LISTENERS ---
-    submitButton.addEventListener("click", showModal);
-    modalBackButton.addEventListener("click", hideModal);
+
+    // Show the confirmation modal
+    submitButton.addEventListener("click", showConfirmationModal);
+
+    // "Ulangi" (Back) button just hides the confirmation modal
+    modalBackButton.addEventListener("click", hideConfirmationModal);
+
+    // Main logic for confirming and showing "Thank You"
     modalConfirmButton.addEventListener("click", () => {
         // 1. Hide the confirmation modal immediately
-        hideModal();
+        hideConfirmationModal();
 
-        // 2. Use a 0ms setTimeout. This tells the browser:
-        // "Finish hiding the first modal, and then run this next."
-        setTimeout(() => {
+        // 2. Use requestAnimationFrame for a smoother visual update
+        // This ensures the browser has rendered the hidden confirmation modal
+        // before showing the thank you modal.
+        requestAnimationFrame(() => {
             // 3. Show the "Thank You" modal
-            thankYouModal.style.display = "flex";
+            showThankYouModal();
 
-            // 4. Set the 2-second timer to hide it and reset
+            // 4. Set the 2-second timer to hide it and reset the UI
             setTimeout(() => {
-                thankYouModal.style.display = "none";
-                resetSelection();
-            }, 2000); // 2-second display
-        }, 0); // 0ms delay to run in the next browser task
+                hideThankYouModal();
+                resetSelection(); // Reset the main UI
+            }, 2000); // Display for 2 seconds
+        });
     });
-    
+
     // --- 5. INITIALIZE ---
     renderCandidates();
-    console.log("Candidate script loaded and executed."); // Check for this in the console
 });

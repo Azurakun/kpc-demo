@@ -1,31 +1,28 @@
 /* Basic setup */
 body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
-    /* Light blue background for the main content area, matching the original */
     background-color: #f7fafc; 
     margin: 0;
     display: flex;
     flex-direction: column;
-    min-height: 100vh; /* Make body fill the full viewport height */
+    min-height: 100vh;
 }
 
-/* Container now acts as the main layout wrapper, not a centered box */
 .container {
     width: 100%;
-    background-color: transparent; /* No more white box */
+    background-color: transparent;
     display: flex;
     flex-direction: column;
-    flex-grow: 1; /* Make the container grow to fill the body */
+    flex-grow: 1;
 }
 
 /* Header */
 .ballot-header {
     text-align: center;
     padding: 20px;
-    /* Mocking the original's background with a subtle gradient */
     background: linear-gradient(180deg, #d4e6f7, #f7fafc);
     border-bottom: 1px solid #ddd;
-    flex-shrink: 0; /* Prevent header from shrinking */
+    flex-shrink: 0;
 }
 
 .ballot-header .logo {
@@ -53,14 +50,14 @@ body {
 
 /* Main content area (holds the grid) */
 main {
-    flex-grow: 1; /* This is key: makes the main area fill available space */
-    overflow-y: auto; /* Allows candidate grid to scroll on smaller screens */
+    flex-grow: 1;
+    overflow-y: auto;
 }
 
 /* Candidate Grid */
 .candidate-grid {
     display: grid;
-    grid-template-columns: repeat(5, 1fr); /* 5 columns */
+    grid-template-columns: repeat(5, 1fr);
     gap: 15px;
     padding: 20px;
 }
@@ -74,13 +71,32 @@ main {
     transition: background-color 0.2s, border-color 0.2s;
 }
 
+.candidate-card .image-wrapper {
+    position: relative;
+    margin-bottom: 10px;
+}
+
 .candidate-card img {
     width: 100%;
-    aspect-ratio: 3 / 4;
+    aspect-ratio: 3 / 4; /* Portrait aspect ratio */
     object-fit: cover;
     border-radius: 4px;
-    margin-bottom: 10px;
     background-color: #f0f0f0;
+    display: block;
+}
+
+.candidate-number {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    background-color: #007bff; /* Blue background */
+    color: white;
+    font-weight: bold;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.8em;
+    z-index: 10;
+    line-height: 1;
 }
 
 .candidate-card .name {
@@ -89,9 +105,9 @@ main {
     color: #333;
 }
 
-/* Highlight for selected candidate (exact color match) */
+/* Highlight for selected candidate */
 .candidate-card.selected {
-    background-color: #f36f54; 
+    background-color: #f36f54;
     border-color: #f36f54;
 }
 
@@ -99,16 +115,21 @@ main {
     color: #ffffff;
 }
 
+.candidate-card.selected .candidate-number {
+    background-color: #ffffff;
+    color: #f36f54;
+}
+
 /* Footer Button */
 footer {
-    padding: 0; /* No padding, button takes full width */
-    flex-shrink: 0; /* Prevent footer from shrinking */
+    padding: 0;
+    flex-shrink: 0;
 }
 
 .submit-button {
     width: 100%;
     padding: 20px;
-    background-color: #f36f54; /* Red-orange color from image */
+    background-color: #f36f54;
     color: white;
     font-size: 1.2rem;
     font-weight: bold;
@@ -122,19 +143,18 @@ footer {
     cursor: not-allowed;
 }
 
-/* --- MODAL STYLING (No changes, already matches 1:1) --- */
+/* --- Modal Styling (Confirmation Modal) --- */
 .modal-overlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    /* Update background-color for a softer, more subtle overlay */
-    background-color: rgba(0, 0, 0, 0.4); /* Softer black, less opaque */
+    background-color: rgba(0, 0, 0, 0.4); /* Softer black overlay */
     display: none;
     justify-content: center;
     align-items: center;
-    z-index: 1000;
+    z-index: 1000; /* Default z-index for confirmation modal */
 }
 
 .modal-content {
@@ -143,36 +163,42 @@ footer {
     border-radius: 8px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
     text-align: center;
-    width: 90%; /* Start with a wide percentage */
-    max-width: 700px; /* NEW: Max width for a landscape feel */
-    max-height: 400px; /* NEW: Limit height, will auto-adjust with aspect-ratio if needed */
-    aspect-ratio: 16 / 9; /* NEW: Force landscape aspect ratio, e.g., 16:9 */
-    display: flex; /* NEW: Use flexbox for internal layout (buttons at bottom) */
-    flex-direction: column; /* NEW: Stack content vertically */
-    justify-content: space-between; /* NEW: Push buttons to bottom */
+    width: 90%;
+    max-width: 700px;
+    /* max-height: 400px; */
+    /* aspect-ratio: 16 / 9; */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    max-height: 90vh;
+}
+
+.modal-header-text {
+    flex-shrink: 0;
+    padding-bottom: 15px;
 }
 
 .modal-content h2 {
     margin-top: 0;
-    text-align: left; /* Make sure this is set */
+    text-align: left;
 }
 
 .modal-content p {
     text-align: left;
-    margin-bottom: 20px;
-    color: #e53935; /* This is the red color from your image */
-    font-size: 1.1rem; /* Slightly larger like the image */
-    font-weight: 500; /* Bolder than normal text */
+    margin-bottom: 0; /* Remove bottom margin here as padding-bottom is on wrapper */
+    color: #e53935;
+    font-size: 1.1rem;
+    font-weight: 500;
 }
 
 .modal-candidate {
-    flex-grow: 1; /* Allows this section to take up available space */
-    overflow-y: auto; /* Allows scrolling if content exceeds height */
-    padding-bottom: 15px; /* Add some space before the actions */
-    display: flex; /* Use flexbox for image and name */
-    flex-direction: column; /* Stack image and name vertically */
-    justify-content: center; /* Center the image/name vertically */
-    align-items: center; /* Center them horizontally */
+    flex-grow: 1;
+    overflow-y: auto;
+    padding-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .modal-candidate img {
@@ -189,30 +215,25 @@ footer {
     margin-top: 10px;
 }
 
-.modal-header-text {
-    flex-shrink: 0; /* Prevent this part from shrinking */
-    padding-bottom: 15px; /* Add space below the text */
-}
-
 .modal-actions {
     display: flex;
     align-items: center;
-    margin-top: 25px; /* Keep margin from content above */
-    gap: 15px; /* Increase gap slightly for more separation */
-    padding-top: 15px; /* Add some padding above the buttons */
-    border-top: 1px solid #eee; /* Add a subtle line above buttons */
+    margin-top: 25px;
+    gap: 15px;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
 }
 
 .modal-btn-back {
-    background: #f0f0f0; /* Light gray background */
-    border: 1px solid #ddd; /* Adds a border */
+    background: #f0f0f0;
+    border: 1px solid #ddd;
     color: #555;
     font-size: 1rem;
     font-weight: bold;
     cursor: pointer;
-    flex: 1; /* Makes it grow to fill 50% of the space */
-    padding: 12px 20px; /* Matches height of the other button */
-    border-radius: 6px; /* Matches the other button */
+    flex: 1;
+    padding: 12px 20px;
+    border-radius: 6px;
     text-align: center;
 }
 
@@ -225,47 +246,11 @@ footer {
     font-size: 1rem;
     font-weight: bold;
     cursor: pointer;
-    flex: 1; /* <-- ADD THIS LINE */
+    flex: 1;
 }
 
-/* Styling for Candidate Number Overlay */
-.candidate-card .image-wrapper {
-    position: relative; /* Essential for positioning the number inside */
-    margin-bottom: 10px; /* Adjust as needed, moved from img */
-}
 
-.candidate-card img {
-    width: 100%;
-    aspect-ratio: 1 / 1;
-    object-fit: cover;
-    border-radius: 4px;
-    /* margin-bottom: 10px; -- REMOVE THIS LINE from original img style */
-    background-color: #f0f0f0;
-    display: block; /* Ensures no extra space below the image */
-}
-
-.candidate-number {
-    position: absolute;
-    top: 5px; /* Adjust for desired vertical position */
-    left: 5px; /* Adjust for desired horizontal position */
-    background-color: #007bff; /* Red-orange background like the submit button */
-    color: white;
-    font-weight: bold;
-    padding: 4px 8px; /* Padding around the number */
-    border-radius: 4px; /* Slightly rounded corners */
-    font-size: 0.8em; /* Smaller font size */
-    z-index: 10; /* Ensure it's above the image */
-    line-height: 1; /* Prevent extra line height */
-}
-
-/* Ensure the selected state also applies correctly if colors change */
-.candidate-card.selected .candidate-number {
-    background-color: #ffffff; /* Example: make number white on selected card */
-    color: #f36f54; /* Example: make text red-orange on selected card */
-}
-
-/* --- "Thank You" Modal Styles --- */
-
+/* --- "Thank You" Modal Styles (Adjusted z-index for visibility) --- */
 #thank-you-modal {
     position: fixed;
     top: 0;
@@ -276,7 +261,7 @@ footer {
     display: none; /* Hidden by default */
     justify-content: center;
     align-items: center;
-    z-index: 2000; /* Make sure it's on top of everything */
+    z-index: 2000; /* Ensure it's on top of everything else, higher than confirmation modal */
 }
 
 .thank-you-content {
@@ -287,6 +272,11 @@ footer {
     text-align: center;
     width: 90%;
     max-width: 350px;
+    /* To ensure perfect vertical centering of content */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .thank-you-icon {
