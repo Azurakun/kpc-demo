@@ -5,8 +5,7 @@ body {
     margin: 0;
     display: flex;
     flex-direction: column;
-    height: 100vh; /* Changed from min-height */
-    overflow: hidden; /* Prevents body from scrolling */
+    min-height: 100vh; /* Reverted */
 }
 
 .container {
@@ -58,11 +57,11 @@ main {
 /* Candidate Grid */
 .candidate-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr); /* Changed from 5 to 4 */
+    grid-template-columns: repeat(4, 1fr); /* Kept at 4 */
     gap: 15px;
     padding: 20px;
-    width: 80%; /* Added to keep cards original size */
-    margin: 0 auto; /* Added to center the grid */
+    width: 80%; /* Kept for centering */
+    margin: 0 auto; /* Kept for centering */
 }
 
 .candidate-card {
